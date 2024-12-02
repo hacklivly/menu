@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Slider with Blur Background</title>
+  <title>Responsive Background Slider</title>
   <style>
-    /* Base styles */
+    /* CSS Styles */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       overflow: hidden;
-      background: white; /* White background */
     }
 
     .slider-container {
@@ -20,55 +19,31 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
     }
 
-    /* Blurred background styles */
-    .blurred-background {
-      position: absolute;
-      top: 0;
-      left: 0;
+    .slider {
+      display: flex;
       width: 100%;
       height: 100%;
-      background-size: cover;
-      background-position: center;
-      filter: blur(15px); /* Blur effect */
-      opacity: 0.5; /* Make it subtle */
-      z-index: -1; /* Send it to the back */
-    }
-
-    /* Slider styles */
-    .slider {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      width: 90%; /* Adjust width for better view */
-      height: 80%; /* Maintain aspect ratio */
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-      background: white;
+      transform: translateX(0);
+      transition: transform 0.5s ease-in-out;
     }
 
     .slide {
       flex: 0 0 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: white;
+      width: 100%;
+      height: 100%;
+      background-size: contain; /* Show full image without cropping */
+      background-repeat: no-repeat; /* Avoid repetition */
+      background-position: center; /* Center the image */
     }
 
-    .slide img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain; /* Ensure no cropping */
-    }
-
-    /* Navigation buttons */
     .slider-btn {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.5);
       color: #fff;
       border: none;
       padding: 10px 15px;
@@ -80,11 +55,11 @@
     }
 
     .slider-btn.prev {
-      left: 15px;
+      left: 10px;
     }
 
     .slider-btn.next {
-      right: 15px;
+      right: 10px;
     }
 
     .slider-btn span {
@@ -94,20 +69,13 @@
   </style>
 </head>
 <body>
-  <!-- Slider Container -->
   <div class="slider-container">
-    <!-- Blurred Background -->
-    <div class="blurred-background" id="blurredBg"></div>
-
-    <!-- Slider -->
     <div class="slider">
-      <div class="slide"><img src="https://raw.githubusercontent.com/hacklivly/PRRestaurantsmenu/main/1.jpg" alt="Slide 1"></div>
-      <div class="slide"><img src="https://raw.githubusercontent.com/hacklivly/PRRestaurantsmenu/main/2.jpg" alt="Slide 2"></div>
-      <div class="slide"><img src="https://raw.githubusercontent.com/hacklivly/PRRestaurantsmenu/main/3.jpg" alt="Slide 3"></div>
-      <div class="slide"><img src="https://raw.githubusercontent.com/hacklivly/PRRestaurantsmenu/main/4.jpg" alt="Slide 4"></div>
+      <div class="slide" style="background-image: url('https://raw.githubusercontent.com/hacklivly/PRRestaurantsmenu/main/1.jpg');"></div>
+      <div class="slide" style="background-image: url('https://raw.githubusercontent.com/hacklivly/PRRestaurantsmenu/main/2.jpg');"></div>
+      <div class="slide" style="background-image: url('https://raw.githubusercontent.com/hacklivly/PRRestaurantsmenu/main/3.jpg');"></div>
+      <div class="slide" style="background-image: url('https://raw.githubusercontent.com/hacklivly/PRRestaurantsmenu/main/4.jpg');"></div>
     </div>
-
-    <!-- Navigation Buttons -->
     <button class="slider-btn prev" aria-label="slide to previous" data-prev-btn>
       <span>&lt;</span>
     </button>
@@ -117,36 +85,30 @@
   </div>
 
   <script>
-    // JavaScript for Slider
+    // JavaScript for slider functionality
     const slider = document.querySelector('.slider');
-    const slides = document.querySelectorAll('.slide');
     const prevBtn = document.querySelector('[data-prev-btn]');
     const nextBtn = document.querySelector('[data-next-btn]');
-    const blurredBg = document.getElementById('blurredBg');
 
-    let currentIndex = 0;
-
-    // Update slider and background
-    function updateSlider() {
-      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-      const currentImage = slides[currentIndex].querySelector('img').src;
-      blurredBg.style.backgroundImage = `url(${currentImage})`;
-    }
+    let currentIndex = 0; // Current slide index
+    const totalSlides = slider.children.length; // Total number of slides
 
     // Previous button functionality
     prevBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+      currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalSlides - 1;
       updateSlider();
     });
 
     // Next button functionality
     nextBtn.addEventListener('click', () => {
-      currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+      currentIndex = (currentIndex < totalSlides - 1) ? currentIndex + 1 : 0;
       updateSlider();
     });
 
-    // Initialize slider and background
-    updateSlider();
+    // Update the slider position
+    function updateSlider() {
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
   </script>
 </body>
 </html>
