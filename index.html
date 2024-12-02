@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Background Slider</title>
+  <style>
+    /* CSS Styles */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .slider-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .slider {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      transform: translateX(0);
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slide {
+      flex: 0 0 100%;
+      height: calc(100vw * (9 / 16)); /* Maintain 16:9 aspect ratio */
+      background-size: cover;
+      background-position: center;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      z-index: 10;
+      font-size: 1.5rem;
+      border-radius: 50%;
+      outline: none;
+    }
+
+    .slider-btn.prev {
+      left: 10px;
+    }
+
+    .slider-btn.next {
+      right: 10px;
+    }
+
+    .slider-btn span {
+      display: block;
+      font-size: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="slider-container">
+    <div class="slider">
+      <div class="slide" style="background-image: url('https://raw.githubusercontent.com/hacklivly/PRRestaurantsmenu/main/1.jpg');"></div>
+      <div class="slide" style="background-image: url('https://raw.githubusercontent.com/hacklivly/PRRestaurantsmenu/main/2.jpg');"></div>
+      <div class="slide" style="background-image: url('https://raw.githubusercontent.com/hacklivly/PRRestaurantsmenu/main/3.jpg');"></div>
+      <div class="slide" style="background-image: url('https://raw.githubusercontent.com/hacklivly/PRRestaurantsmenu/main/4.jpg');"></div>
+    </div>
+    <button class="slider-btn prev" aria-label="slide to previous" data-prev-btn>
+      <span>&lt;</span>
+    </button>
+    <button class="slider-btn next" aria-label="slide to next" data-next-btn>
+      <span>&gt;</span>
+    </button>
+  </div>
+
+  <script>
+    // JavaScript for slider functionality
+    const slider = document.querySelector('.slider');
+    const prevBtn = document.querySelector('[data-prev-btn]');
+    const nextBtn = document.querySelector('[data-next-btn]');
+
+    let currentIndex = 0; // Current slide index
+    const totalSlides = slider.children.length; // Total number of slides
+
+    // Previous button functionality
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalSlides - 1;
+      updateSlider();
+    });
+
+    // Next button functionality
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex < totalSlides - 1) ? currentIndex + 1 : 0;
+      updateSlider();
+    });
+
+    // Update the slider position
+    function updateSlider() {
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+  </script>
+</body>
+</html>
